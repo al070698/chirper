@@ -18,7 +18,7 @@ export default function AppSidebarLayout({
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
                 <main className="flex-1">{children}</main>
                 <footer className="border-t border-sidebar-border/70 px-4 py-4 text-center text-sm text-muted-foreground md:px-6">
-                    © 2026 Rafael Gilberto Hernández Jiménez — Chirper
+                    © 2026 Rafael G. Hernández Jiménez — Chirper
                 </footer>
             </AppContent>
         </AppShell>
