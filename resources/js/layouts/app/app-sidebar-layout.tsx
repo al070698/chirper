@@ -11,9 +11,15 @@ export default function AppSidebarLayout({
     return (
         <AppShell variant="sidebar">
             <AppSidebar />
-            <AppContent variant="sidebar" className="overflow-x-hidden">
+            <AppContent
+                variant="sidebar"
+                className="flex min-h-screen flex-col overflow-x-hidden"
+            >
                 <AppSidebarHeader breadcrumbs={breadcrumbs} />
-                {children}
+                <main className="flex-1">{children}</main>
+                <footer className="border-t border-sidebar-border/70 px-4 py-4 text-center text-sm text-muted-foreground md:px-6">
+                    © 2026 Rafael Gilberto Hernández Jiménez — Chirper
+                </footer>
             </AppContent>
         </AppShell>
     );
