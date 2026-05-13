@@ -1,5 +1,4 @@
 import { type FormEvent, useState } from 'react';
-import AppLayout from '@/layouts/app-layout';
 import { Head, useForm } from '@inertiajs/react';
 import type { Auth, User } from '@/types';
 
@@ -28,13 +27,14 @@ export default function Index({ auth, chirps }: IndexProps) {
 
     function submit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
         post('/chirps', {
             onSuccess: () => reset(),
         });
     }
 
     return (
-        <AppLayout>
+        <>
             <Head title="Chirps" />
 
             <div className="mx-auto max-w-2xl p-4 sm:p-6 lg:p-8">
@@ -45,11 +45,13 @@ export default function Index({ auth, chirps }: IndexProps) {
                         className="focus:ring-opacity-50 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200"
                         onChange={(e) => setData('message', e.target.value)}
                     ></textarea>
+
                     {errors.message && (
                         <div className="mt-1 text-red-500">
                             {errors.message}
                         </div>
                     )}
+
                     <button
                         type="submit"
                         disabled={processing}
@@ -61,11 +63,15 @@ export default function Index({ auth, chirps }: IndexProps) {
 
                 <div className="mt-6 divide-y rounded-lg bg-white shadow-sm">
                     {chirps.map((chirp) => (
-                        <Chirp key={chirp.id} chirp={chirp} auth={auth} />
+                        <Chirp
+                            key={chirp.id}
+                            chirp={chirp}
+                            auth={auth}
+                        />
                     ))}
                 </div>
             </div>
-        </AppLayout>
+        </>
     );
 }
 
@@ -86,6 +92,7 @@ function Chirp({ chirp, auth }: ChirpProps) {
 
     function submitEdit(e: FormEvent<HTMLFormElement>) {
         e.preventDefault();
+
         patch(`/chirps/${chirp.id}`, {
             onSuccess: () => setEditing(false),
         });
@@ -104,6 +111,7 @@ function Chirp({ chirp, auth }: ChirpProps) {
                     <span className="font-bold text-gray-900">
                         {chirp.user.name}
                     </span>
+
                     <small className="ml-2 text-gray-500">
                         {new Date(chirp.created_at).toLocaleString()}
                     </small>
@@ -113,14 +121,18 @@ function Chirp({ chirp, auth }: ChirpProps) {
                     <form onSubmit={submitEdit} className="mt-2">
                         <textarea
                             value={data.message}
-                            onChange={(e) => setData('message', e.target.value)}
+                            onChange={(e) =>
+                                setData('message', e.target.value)
+                            }
                             className="block w-full rounded-md border-gray-300 bg-white text-gray-900 shadow-sm"
                         ></textarea>
+
                         {errors.message && (
                             <div className="mt-1 text-red-500">
                                 {errors.message}
                             </div>
                         )}
+
                         <div className="mt-2 space-x-2">
                             <button
                                 type="submit"
@@ -129,6 +141,7 @@ function Chirp({ chirp, auth }: ChirpProps) {
                             >
                                 Guardar
                             </button>
+
                             <button
                                 type="button"
                                 onClick={() => {
@@ -142,7 +155,9 @@ function Chirp({ chirp, auth }: ChirpProps) {
                         </div>
                     </form>
                 ) : (
-                    <p className="mt-2 text-gray-900">{chirp.message}</p>
+                    <p className="mt-2 text-gray-900">
+                        {chirp.message}
+                    </p>
                 )}
 
                 {auth.user.id === chirp.user_id && !editing && (
@@ -153,6 +168,7 @@ function Chirp({ chirp, auth }: ChirpProps) {
                         >
                             Editar
                         </button>
+
                         <button
                             onClick={deleteChirp}
                             className="text-sm text-red-500 hover:underline"
